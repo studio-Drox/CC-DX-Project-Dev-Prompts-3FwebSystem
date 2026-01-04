@@ -55,7 +55,8 @@ Claude Code와 함께 사용하는 한국형 웹사이트 개발 스킬/프롬�
     │   ├── SKILL.md        # 3F Web 핵심 스킬
     │   ├── architecture.md # 배포 아키텍처
     │   ├── component-first.md  # 컴포넌트 퍼스트 원칙
-    │   └── ui-library.md   # UI 라이브러리 가이드
+    │   ├── ui-library.md   # UI 라이브러리 가이드
+    │   └── page-spec.md    # PAGE_SPEC 운영 규칙
     │
     ├── design/             # 디자인 시스템
     │   ├── SKILL.md        # 디자인 스킬 개요
@@ -227,6 +228,63 @@ colors.json   # 3색 테마 정의
 - String Tune 사용 (웹 전용)
 - PWA에서는 비활성화 필수
 - `shouldUseAnimation()` 체크 포함
+
+---
+
+## PAGE_SPEC 운영 규칙
+
+### PAGE_SPEC이란?
+페이지 생성의 **필수 입력 사양**입니다. `/gen-page` 커맨드 사용 시 반드시 제공해야 합니다.
+
+### 표준 템플릿
+```
+[PAGE_SPEC]
+category: realestate | travel | clinic
+subcategory: (optional) dental | plastic | derma | general
+page: home | landing | detail | pricing | contact
+language: ko | vi | en | ko+vi
+goal: lead-gen | info | booking
+tone: clean | premium | friendly
+[/PAGE_SPEC]
+```
+
+### 필수/선택 항목
+| 구분 | 항목 | 설명 |
+|------|------|------|
+| 필수 | category | 업종 카테고리 |
+| 필수 | page | 페이지 유형 |
+| 필수 | language | 언어 |
+| 필수 | goal | 페이지 목적 |
+| 선택 | subcategory | 세부 업종 |
+| 선택 | tone | 디자인 톤 |
+
+### 운영 원칙
+
+```
+✅ PAGE_SPEC 없으면 생성하지 말 것
+✅ 업종(category)을 추측하지 말 것
+✅ 특수 연출은 명시적 호출 없으면 쓰지 말 것
+```
+
+### 역할 분리
+| 구분 | 역할 |
+|------|------|
+| PAGE_SPEC | **무엇을** 만들지 정의 |
+| Skill | **어떻게** 만들지 정의 |
+
+### AI Slop 방지 규칙
+- 무근거한 Inter / Roboto 고정 사용 금지
+- 의미 없는 보라색 그라데이션 반복 금지
+- 3카드 랜딩 구조 자동 수렴 금지
+- 디자인 판단 우선순위: `PAGE_SPEC → Skill → 업종 맥락 → UX 관행`
+
+### 특수 스킬 호출
+Before/After 등 특수 연출은 명시적 호출 필요:
+```
+@skill special/before-after
+```
+
+상세 규칙: `@skills/core/page-spec.md` 참조
 
 ---
 
