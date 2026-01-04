@@ -1,0 +1,60 @@
+{
+  "PreToolUse": [
+    {
+      "matcher": "Write|Edit",
+      "hooks": [
+        {
+          "type": "prompt",
+          "prompt": "파일 작성 전 다음을 확인:\n\n1. [컬러] 하드코딩 색상 없음 (bg-[#xxx] 금지)\n   - 테마 변수만 사용: bg-primary, text-secondary 등\n\n2. [스타일] 인라인 스타일 없음 (style={{}} 금지)\n   - Tailwind 클래스만 사용\n\n3. [컴포넌트] 재사용 가능한 구조\n   - Props로 커스터마이징 가능\n   - 타입 정의 포함\n\n4. [폰트] font.md 규칙 준수\n   - font-heading, font-sans 등 테마 폰트 사용\n\n5. [애니메이션] String Tune 사용 시\n   - shouldUseAnimation() 체크 포함\n   - PWA 감지 로직 필수\n\n위 규칙을 위반하면 수정 후 진행해줘.",
+          "timeout": 15
+        }
+      ]
+    },
+    {
+      "matcher": "Bash",
+      "hooks": [
+        {
+          "type": "prompt",
+          "prompt": "Vercel 또는 Cloudflare CLI 명령어 실행 전:\n\n1. 최신 공식 문서를 확인했는지 검증\n2. deprecated 명령어가 아닌지 확인\n3. 무료 티어 제한을 초과하지 않는지 확인\n\n확인되지 않았다면 /check-docs 실행을 권장.",
+          "timeout": 10
+        }
+      ]
+    }
+  ],
+  "PostToolUse": [
+    {
+      "matcher": "Write",
+      "hooks": [
+        {
+          "type": "prompt",
+          "prompt": "파일 작성 완료 후 확인:\n\n1. TypeScript 타입 에러 없음\n2. import 경로 올바름 (@/ alias 사용)\n3. 'use client' 필요한 경우만 사용\n4. 접근성 속성 포함 (aria-*, role 등)",
+          "timeout": 10
+        }
+      ]
+    }
+  ],
+  "SessionStart": [
+    {
+      "matcher": "*",
+      "hooks": [
+        {
+          "type": "prompt",
+          "prompt": "세션 시작 시 프로젝트 설정 확인:\n\n1. font.md 파일 존재 여부\n   - 없으면: 폰트 시스템 먼저 설정 필요\n\n2. colors.json 파일 확인\n   - 3색 이하인지 확인\n   - Primary/Secondary/Accent 정의됨\n\n3. package.json의 category 필드\n   - 업종 카테고리 설정됨\n\n4. tailwind.config.ts\n   - 테마 색상/폰트 설정됨\n\n설정이 누락된 경우 먼저 설정하도록 안내.",
+          "timeout": 10
+        }
+      ]
+    }
+  ],
+  "Stop": [
+    {
+      "matcher": ".*",
+      "hooks": [
+        {
+          "type": "prompt",
+          "prompt": "작업 완료 전 최종 확인:\n\n1. 빌드 에러 없음 (pnpm build 성공)\n2. 타입 에러 없음\n3. 린트 에러 없음\n4. 하드코딩된 값 없음\n5. 반응형 적용됨\n\n문제가 있으면 수정 후 완료.",
+          "timeout": 15
+        }
+      ]
+    }
+  ]
+}
